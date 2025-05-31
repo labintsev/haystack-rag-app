@@ -1,0 +1,6 @@
+haystack-ai
+datasets>=2.6.1
+sentence-transformers>=4.1.0
+transformers[torch,sentencepiece]
+python-dotenv
+huggingface_hub[hf_xet]
