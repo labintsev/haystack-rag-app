@@ -1,38 +1,38 @@
-# Haystack RAG Application
+# Приложение Haystack RAG
 
-This project implements some tutorials to understand Retrieval-Augmented Generation (RAG) system using the Haystack framework. 
-The RAG system combines the capabilities of a retriever and a generator to provide enhanced responses based on relevant documents.
+Этот проект реализует несколько учебных примеров для понимания системы Retrieval-Augmented Generation (RAG) с использованием фреймворка Haystack. 
+Система RAG сочетает возможности поиска и генерации, чтобы предоставлять расширенные ответы на основе релевантных документов.
 
 
-## Setup Instructions
+## Инструкции по установке
 
-1. **Clone the repository:**
+1. **Клонируйте репозиторий:**
    ```
    git clone https://github.com/labintsev/haystack-rag-app.git
    cd haystack-rag-app
    ```
 
-2. **Create a virtual environment:**
+2. **Создайте виртуальное окружение:**
    ```
    python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   source venv/bin/activate  # В Windows используйте `venv\Scripts\activate`
    ```
 
-3. **Install dependencies:**
+3. **Установите зависимости:**
    ```
    pip install -r requirements.txt
    ```
 
-4. **Configure environment variables:**
-   Create a `.env` file in the root directory and add any necessary API keys and configuration settings.
+4. **Настройте переменные окружения:**
+   Создайте файл `.env` в корневой директории и добавьте необходимые API-ключи и параметры конфигурации.
 
-## Usage Guidelines
+## Инструкция по использованию
 
-To run the RAG system, execute the following command:
+Для запуска системы RAG выполните следующую команду:
 ```
 python main.py
 ```
 
-## Contributing
+## Вклад
 
-Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
+Будем рады вашим предложениям! Открывайте issue или отправляйте pull request для улучшений или исправления ошибок.
