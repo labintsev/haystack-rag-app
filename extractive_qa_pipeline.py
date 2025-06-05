@@ -8,10 +8,10 @@ from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
 from haystack.components.readers import ExtractiveReader
 
 docs = [
-    Document(content="Золото стоит 8 372,4100 рублей за грамм"),
-    Document(content="Серебро стоит 84,3500 рублей за грамм"),
-    Document(content="Платина стоит 2 750,0300 рублей за грамм"),
-    Document(content="Палладий стоит 2 466,9300 рублей за грамм"),
+    Document(content="iPhone 15 Pro стоит 98 000 рублей"),
+    Document(content="Samsung Galaxy S24 Ultra стоит 115 000 рублей"),
+    Document(content="Xiaomi 14 Pro стоит 75 000 рублей"),
+    Document(content="Google Pixel 9 Pro стоит 95 000 рублей"),
 ]
 
 document_store = InMemoryDocumentStore()
