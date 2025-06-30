@@ -6,6 +6,7 @@ from haystack import Document, Pipeline
 from haystack.document_stores.in_memory import InMemoryDocumentStore
 from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
 from haystack.components.readers import ExtractiveReader
+from pprint import pprint
 
 docs = [
     Document(content="iPhone 15 Pro стоит 98 000 рублей"),
@@ -34,3 +35,12 @@ def run_pipeline(query):
         }
     )
     return response["reader"]["answers"][0]
+
+
+if __name__ == '__main__':
+    query = "Сколько стоит Xiaomi 14 Pro?"
+    # Run the pipeline
+    response = run_pipeline(query)
+
+    # Print the generated response
+    pprint(response)

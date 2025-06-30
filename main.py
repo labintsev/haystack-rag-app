@@ -1,6 +1,6 @@
 # Entry point for the RAG system
 from pprint import pprint
-from extractive_qa_pipeline import run_pipeline
+from chat_pipeline import run_pipeline
 
 
 if __name__ == "__main__":
