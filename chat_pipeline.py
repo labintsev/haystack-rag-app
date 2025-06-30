@@ -1,7 +1,8 @@
 """
 Tutorial 2. Chat with hugging face with custom context
-Практика 2. Чат с языковой моделью hugging face с заданным контекстом. 
+Практика 2. Чат с языковой моделью hugging face с заданным контекстом.
 """
+
 from haystack import Pipeline, Document
 from haystack.utils import Secret
 from haystack.dataclasses import ChatMessage
@@ -11,8 +12,8 @@ from haystack.components.embedders import (
     SentenceTransformersTextEmbedder,
 )
 from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
-from haystack.components.generators.chat import HuggingFaceAPIChatGenerator
 from haystack.components.builders import ChatPromptBuilder
+from haystack_integrations.components.generators.ollama import OllamaChatGenerator
 
 from dotenv import dotenv_values
 
@@ -30,6 +31,7 @@ docs = [
 template = [
     ChatMessage.from_user(
         """
+Ты консультант по продаже сотовых телефонов. 
 Ответь на вопрос: {{question}} 
 Используй контекст:
 {% for document in documents %}
@@ -51,14 +53,13 @@ text_embedder = SentenceTransformersTextEmbedder(model=embedder_model)
 
 # Create retriever, chat generator and prompt builder
 retriever = InMemoryEmbeddingRetriever(document_store)
-chat_generator = HuggingFaceAPIChatGenerator(
-    api_type="serverless_inference_api",
-    api_params={"model": "HuggingFaceH4/zephyr-7b-beta"},
-    token=Secret.from_token(env["HF_API_KEY"]),
+chat_generator = OllamaChatGenerator(
+    model="lakomoor/vikhr-llama-3.2-1b-instruct:1b", url="http://localhost:11434"
 )
+
 prompt_builder = ChatPromptBuilder(template=template, required_variables=["question"])
 
-# Make pipeline and add components 
+# Make pipeline and add components
 basic_rag_pipeline = Pipeline()
 basic_rag_pipeline.add_component("text_embedder", text_embedder)
 basic_rag_pipeline.add_component("retriever", retriever)

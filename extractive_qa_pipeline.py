@@ -15,6 +15,15 @@ docs = [
     Document(content="Google Pixel 9 Pro стоит 95 000 рублей"),
 ]
 
+def read_from_file(file_name):
+    with open(file_name, encoding="utf-8") as f:
+        lines = f.readlines()
+    return [Document(content=line) for line in lines]
+    
+
+docs = read_from_file('data/test.txt')
+print(docs)
+
 document_store = InMemoryDocumentStore()
 document_store.write_documents(docs)
 
@@ -44,3 +53,4 @@ if __name__ == '__main__':
 
     # Print the generated response
     pprint(response)
+    
