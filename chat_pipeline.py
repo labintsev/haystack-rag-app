@@ -16,17 +16,13 @@ from haystack.components.builders import ChatPromptBuilder
 from haystack_integrations.components.generators.ollama import OllamaChatGenerator
 
 from dotenv import dotenv_values
+from helpers import read_from_file
 
 env = dotenv_values()
 
 embedder_model = "sentence-transformers/all-MiniLM-L6-v2"
 
-docs = [
-    Document(content="iPhone 15 Pro стоит 98 000 рублей"),
-    Document(content="Samsung Galaxy S24 Ultra стоит 115 000 рублей"),
-    Document(content="Xiaomi 14 Pro стоит 75 000 рублей"),
-    Document(content="Google Pixel 9 Pro стоит 95 000 рублей"),
-]
+docs = read_from_file('data/test.txt')
 
 template = [
     ChatMessage.from_user(
@@ -54,7 +50,7 @@ text_embedder = SentenceTransformersTextEmbedder(model=embedder_model)
 # Create retriever, chat generator and prompt builder
 retriever = InMemoryEmbeddingRetriever(document_store)
 chat_generator = OllamaChatGenerator(
-    model="lakomoor/vikhr-llama-3.2-1b-instruct:1b", url="http://localhost:11434"
+    model="lakomoor/vikhr-llama-3.2-1b-instruct:1b", url="http://127.0.0.1:11434"
 )
 
 prompt_builder = ChatPromptBuilder(template=template, required_variables=["question"])
