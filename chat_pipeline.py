@@ -3,7 +3,7 @@ Tutorial 2. Chat with hugging face with custom context
 Практика 2. Чат с языковой моделью hugging face с заданным контекстом.
 """
 
-from haystack import Pipeline, Document
+from haystack import Pipeline
 from haystack.utils import Secret
 from haystack.dataclasses import ChatMessage
 from haystack.document_stores.in_memory import InMemoryDocumentStore
@@ -13,7 +13,7 @@ from haystack.components.embedders import (
 )
 from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
 from haystack.components.builders import ChatPromptBuilder
-from haystack.components.generators.chat import HuggingFaceAPIChatGenerator
+from haystack.components.generators.chat import OpenAIChatGenerator
 
 from dotenv import dotenv_values
 from helpers import read_from_file
@@ -49,10 +49,10 @@ text_embedder = SentenceTransformersTextEmbedder(model=embedder_model)
 
 # Create retriever, chat generator and prompt builder
 retriever = InMemoryEmbeddingRetriever(document_store)
-chat_generator = HuggingFaceAPIChatGenerator(
-    api_type="serverless_inference_api",
-    api_params={"model": "HuggingFaceH4/zephyr-7b-beta"},
-    token=Secret.from_token(env["HF_API_KEY"]),
+chat_generator = OpenAIChatGenerator(
+    api_key = Secret.from_token(env["YA_API_KEY"]),
+    model = f"gpt://{env['YA_FOLDER_ID']}/yandexgpt-lite",
+    api_base_url="https://llm.api.cloud.yandex.net/v1"
 )
 
 prompt_builder = ChatPromptBuilder(template=template, required_variables=["question"])
