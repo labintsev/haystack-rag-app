@@ -13,7 +13,7 @@ from haystack.components.embedders import (
 )
 from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
 from haystack.components.builders import ChatPromptBuilder
-from haystack_integrations.components.generators.ollama import OllamaChatGenerator
+from haystack.components.generators.chat import HuggingFaceAPIChatGenerator
 
 from dotenv import dotenv_values
 from helpers import read_from_file
@@ -49,8 +49,10 @@ text_embedder = SentenceTransformersTextEmbedder(model=embedder_model)
 
 # Create retriever, chat generator and prompt builder
 retriever = InMemoryEmbeddingRetriever(document_store)
-chat_generator = OllamaChatGenerator(
-    model="lakomoor/vikhr-llama-3.2-1b-instruct:1b", url="http://127.0.0.1:11434"
+chat_generator = HuggingFaceAPIChatGenerator(
+    api_type="serverless_inference_api",
+    api_params={"model": "HuggingFaceH4/zephyr-7b-beta"},
+    token=Secret.from_token(env["HF_API_KEY"]),
 )
 
 prompt_builder = ChatPromptBuilder(template=template, required_variables=["question"])
