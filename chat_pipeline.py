@@ -50,7 +50,7 @@ text_embedder = SentenceTransformersTextEmbedder(model=embedder_model)
 # Create retriever, chat generator and prompt builder
 retriever = InMemoryEmbeddingRetriever(document_store)
 chat_generator = OllamaChatGenerator(
-    model="lakomoor/vikhr-llama-3.2-1b-instruct:1b", url="http://127.0.0.1:11434"
+    model="owl/t-lite", url="http://127.0.0.1:11434"
 )
 
 prompt_builder = ChatPromptBuilder(template=template, required_variables=["question"])
