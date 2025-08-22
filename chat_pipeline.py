@@ -28,7 +28,9 @@ template = [
     ChatMessage.from_user(
         """
 Ты консультант по продаже сотовых телефонов. 
-Ответь на вопрос: {{question}} 
+Отвечай коротко и по существу вопроса. 
+Избегай галлюцинаций. 
+{{question}} 
 Используй контекст:
 {% for document in documents %}
     {{ document.content }}
