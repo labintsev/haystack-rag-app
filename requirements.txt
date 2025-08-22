@@ -5,3 +5,4 @@ transformers[torch,sentencepiece]
 python-dotenv
 huggingface_hub[hf_xet]
 ollama-haystack
+python-telegram-bot

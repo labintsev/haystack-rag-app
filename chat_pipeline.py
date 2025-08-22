@@ -48,7 +48,7 @@ document_store.write_documents(docs_with_embeddings["documents"])
 text_embedder = SentenceTransformersTextEmbedder(model=embedder_model)
 
 # Create retriever, chat generator and prompt builder
-retriever = InMemoryEmbeddingRetriever(document_store)
+retriever = InMemoryEmbeddingRetriever(document_store, top_k=3)
 chat_generator = OllamaChatGenerator(
     model="owl/t-lite", url="http://127.0.0.1:11434"
 )
