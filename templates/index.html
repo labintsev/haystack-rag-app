@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with LLM</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chat-box" class="chat-box">
+            {% for entry in chat_history %}
+                <div class="message user"><strong>You:</strong> {{ entry.user_message }}</div>
+                <div class="message llm"><strong>LLM:</strong> {{ entry.llm_reply }}</div>
+            {% endfor %}
+        </div>
+        <form id="chat-form" autocomplete="off">
+            <input type="text" id="user-input" placeholder="Type your message..." required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

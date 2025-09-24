@@ -1,4 +1,28 @@
 from chat_pipeline import run_pipeline
+from flask_sqlalchemy import SQLAlchemy
+import dotenv
+
+# Загружаем переменные окружения из файла .env
+env = dotenv.dotenv_values(".env")
+
+# Инициализируем SQLAlchemy для работы с базой данных через Flask
+db = SQLAlchemy()
+
+
+class ChatHistory(db.Model):
+    """
+    Модель SQLAlchemy для хранения истории общения пользователя с LLM.
+
+    Атрибуты:
+        id (int): Уникальный идентификатор записи.
+        user_message (str): Сообщение пользователя.
+        llm_reply (str): Ответ языковой модели.
+        timestamp (datetime): Время создания записи.
+    """
+    id = db.Column(db.Integer, primary_key=True)  # Уникальный идентификатор
+    user_message = db.Column(db.Text, nullable=False)  # Текст сообщения пользователя
+    llm_reply = db.Column(db.Text, nullable=False)  # Ответ модели
+    timestamp = db.Column(db.DateTime, server_default=db.func.now())  # Временная метка создания записи
 
 
 def format_msg_with_history(user_message, history, depth=2):
@@ -40,7 +64,9 @@ def chat_with_llm(user_message, history=None):
         llm_response = run_pipeline(user_message_with_history)
     else:
         llm_response = run_pipeline(f"Пользователь спрашивает: {user_message}")
-
-    history.append({"role": "user", "content": user_message})  # добавляем сообщение пользователя в историю
-    history.append({"role": "assistant", "content": llm_response})
+    
+    if not history is None:
+        history.append({"role": "user", "content": user_message})  # добавляем сообщение пользователя в историю
+        history.append({"role": "assistant", "content": llm_response})
+    
     return llm_response
