@@ -1,5 +1,5 @@
 """
-Tutorial 2. Chat with hugging face with custom context
+Учебник 2. Чат с Hugging Face с пользовательским контекстом.
 Практика 2. Чат с языковой моделью hugging face с заданным контекстом.
 """
 
@@ -37,17 +37,17 @@ template = [
     )
 ]
 
-# Create document store and save documents with embeddings
+# Создать хранилище документов и сохранить документы с векторами (эмбеддингами)
 document_store = InMemoryDocumentStore()
 doc_embedder = SentenceTransformersDocumentEmbedder(model=embedder_model)
 doc_embedder.warm_up()
 docs_with_embeddings = doc_embedder.run(docs)
 document_store.write_documents(docs_with_embeddings["documents"])
 
-# Create another embedder for the user query
+# Создать отдельный эмбеддер для запроса пользователя
 text_embedder = SentenceTransformersTextEmbedder(model=embedder_model)
 
-# Create retriever, chat generator and prompt builder
+# Создать ретривер, генератор чата и построитель подсказки
 retriever = InMemoryEmbeddingRetriever(document_store, top_k=3)
 chat_generator = OllamaChatGenerator(
     model="gemma3:4b", url="http://127.0.0.1:11434"
@@ -55,14 +55,14 @@ chat_generator = OllamaChatGenerator(
 
 prompt_builder = ChatPromptBuilder(template=template, required_variables=["question"])
 
-# Make pipeline and add components
+# Создать пайплайн и добавить компоненты
 basic_rag_pipeline = Pipeline()
 basic_rag_pipeline.add_component("text_embedder", text_embedder)
 basic_rag_pipeline.add_component("retriever", retriever)
 basic_rag_pipeline.add_component("prompt_builder", prompt_builder)
 basic_rag_pipeline.add_component("llm", chat_generator)
 
-# Connect the components to each other
+# Соединить компоненты между собой
 basic_rag_pipeline.connect("text_embedder.embedding", "retriever.query_embedding")
 basic_rag_pipeline.connect("retriever", "prompt_builder")
 basic_rag_pipeline.connect("prompt_builder.prompt", "llm.messages")
