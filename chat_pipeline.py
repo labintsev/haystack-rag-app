@@ -30,11 +30,11 @@ template = [
 Ты консультант по продаже сотовых телефонов. 
 Отвечай коротко и по существу вопроса. 
 Избегай галлюцинаций. 
-{{question}} 
 Используй контекст:
 {% for document in documents %}
     {{ document.content }}
 {% endfor %}
+{{question}} 
 """
     )
 ]
@@ -52,7 +52,7 @@ text_embedder = SentenceTransformersTextEmbedder(model=embedder_model)
 # Create retriever, chat generator and prompt builder
 retriever = InMemoryEmbeddingRetriever(document_store, top_k=3)
 chat_generator = OllamaChatGenerator(
-    model="owl/t-lite", url="http://127.0.0.1:11434"
+    model="gemma3:4b", url="http://127.0.0.1:11434"
 )
 
 prompt_builder = ChatPromptBuilder(template=template, required_variables=["question"])

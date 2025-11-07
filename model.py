@@ -1,7 +1,7 @@
 from chat_pipeline import run_pipeline
 
 
-def format_msg_with_history(user_message, history, depth=2):
+def format_msg_with_history(user_message, history, depth=4):
     """
     Форматирует сообщение пользователя вместе с ограниченной историей чата.
 
@@ -20,7 +20,7 @@ def format_msg_with_history(user_message, history, depth=2):
             out += f'\\user:\n """  {content} \n """ \n '
         elif msg['role'] == 'assistant':
             out += f'\\assistant:\n """ {content} \n """ \n'
-    out += f"Пользователь спрашивает: {user_message}"
+    out += f"\\user: {user_message}"
     return out
 
 
@@ -34,12 +34,12 @@ def chat_with_llm(user_message, history=None):
     Возвращает:
         str: Ответ LLM.
     """
-    if not history is None:
+    if history:
         user_message_with_history = format_msg_with_history(user_message, history)
         print('user_message_with_history = ', user_message_with_history)
         llm_response = run_pipeline(user_message_with_history)
     else:
-        llm_response = run_pipeline(f"Пользователь спрашивает: {user_message}")
+        llm_response = run_pipeline(user_message)
 
     history.append({"role": "user", "content": user_message})  # добавляем сообщение пользователя в историю
     history.append({"role": "assistant", "content": llm_response})
