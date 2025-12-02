@@ -17,7 +17,7 @@ document_store = InMemoryDocumentStore()
 document_store.write_documents(docs)
 
 retriever = InMemoryBM25Retriever(document_store=document_store, top_k=3)
-reader = ExtractiveReader(model="deepset/roberta-base-squad2-distilled")
+reader = ExtractiveReader(model="sentence-transformers/all-MiniLM-L6-v2")
 
 extractive_qa_pipeline = Pipeline()
 extractive_qa_pipeline.add_component(instance=retriever, name="retriever")
