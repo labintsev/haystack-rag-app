@@ -37,17 +37,17 @@ template = [
     )
 ]
 
-# Create document store and save documents with embeddings
+# Создаем хранилище документов и сохраняем документы с эмбеддингами
 document_store = InMemoryDocumentStore()
 doc_embedder = SentenceTransformersDocumentEmbedder(model=embedder_model)
 doc_embedder.warm_up()
 docs_with_embeddings = doc_embedder.run(docs)
 document_store.write_documents(docs_with_embeddings["documents"])
 
-# Create another embedder for the user query
+# Создаем другой эмбеддер для пользовательского запроса
 text_embedder = SentenceTransformersTextEmbedder(model=embedder_model)
 
-# Create retriever, chat generator and prompt builder
+# Создаем ретривер, генератор чата и построитель подсказок
 retriever = InMemoryEmbeddingRetriever(document_store)
 chat_generator = OpenAIChatGenerator(
     api_key = Secret.from_token(env["YA_API_KEY"]),
@@ -57,14 +57,14 @@ chat_generator = OpenAIChatGenerator(
 
 prompt_builder = ChatPromptBuilder(template=template, required_variables=["question"])
 
-# Make pipeline and add components
+# Создаем конвейер и добавляем компоненты
 basic_rag_pipeline = Pipeline()
 basic_rag_pipeline.add_component("text_embedder", text_embedder)
 basic_rag_pipeline.add_component("retriever", retriever)
 basic_rag_pipeline.add_component("prompt_builder", prompt_builder)
 basic_rag_pipeline.add_component("llm", chat_generator)
 
-# Connect the components to each other
+# Соединяем компоненты друг с другом
 basic_rag_pipeline.connect("text_embedder.embedding", "retriever.query_embedding")
 basic_rag_pipeline.connect("retriever", "prompt_builder")
 basic_rag_pipeline.connect("prompt_builder.prompt", "llm.messages")
